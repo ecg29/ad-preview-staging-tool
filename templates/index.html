@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{CREATIVE_NAME}} - Creative Preview</title>
+  <style>
+    /* Reset and base styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #ffffff;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header styles */
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+    }
+
+    .client-name {
+      color: #00d9ff;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .meta-info {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Gallery section */
+    .section-title {
+      font-size: 1.5rem;
+      color: #00d9ff;
+      margin-bottom: 25px;
+      padding-left: 15px;
+      border-left: 4px solid #00ff88;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .gallery-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 217, 255, 0.5);
+    }
+
+    .gallery-item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .image-name {
+      display: block;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.5);
+      word-break: break-all;
+    }
+
+    .no-images {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.5);
+      padding: 60px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    /* File list section */
+    .file-list {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 50px;
+    }
+
+    .file-list ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 10px;
+    }
+
+    .file-list li {
+      padding: 10px 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .file-list li::before {
+      content: '📄';
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: #00d9ff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 15px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>{{CREATIVE_NAME}}</h1>
+      <p class="client-name">{{CLIENT_NAME}}</p>
+      <p class="description">{{DESCRIPTION}}</p>
+      <p class="meta-info">Generated on {{GENERATED_DATE}}</p>
+    </header>
+
+    <section>
+      <h2 class="section-title">Creative Assets</h2>
+      <div class="gallery">
+        {{IMAGES}}
+      </div>
+    </section>
+
+    <footer>
+      <p>Powered by <a href="#">Ad Preview Staging Tool</a></p>
+    </footer>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    // Log creative data if available
+    if (typeof CREATIVE_DATA !== 'undefined') {
+      console.log('Creative Data:', CREATIVE_DATA);
+    }
+  </script>
+</body>
+</html>
