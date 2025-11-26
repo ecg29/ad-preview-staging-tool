@@ -25,8 +25,8 @@ async function generate({ creativeName, folderPath, description, clientName, fil
   // Find images in the files
   const images = files.filter(f => f.type === 'image');
   
-  // Check if there's already an index.html
-  const hasExistingHtml = files.some(f => 
+  // Check if there's already an index.html in the extracted files
+  const existingHtmlFile = files.find(f => 
     f.path.toLowerCase().endsWith('index.html') ||
     f.path.toLowerCase().endsWith('index.htm')
   );
@@ -47,8 +47,23 @@ async function generate({ creativeName, folderPath, description, clientName, fil
     type: 'javascript',
   });
 
-  // Only generate index.html if one doesn't exist
-  if (!hasExistingHtml) {
+  // Always generate an index.html at the root
+  // If there's an existing HTML, create a wrapper that embeds it
+  if (existingHtmlFile) {
+    const wrapperHtml = generateWrapperHtml({
+      creativeName,
+      description,
+      clientName,
+      existingHtmlPath: existingHtmlFile.path,
+    });
+
+    templates.push({
+      path: 'index.html',
+      content: wrapperHtml,
+      encoding: 'utf-8',
+      type: 'html',
+    });
+  } else {
     const indexHtml = generateIndexHtml({
       creativeName,
       description,
@@ -101,6 +116,112 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = CREATIVE_DATA;
 }
 `;
+}
+
+/**
+ * Generate wrapper HTML that embeds an existing creative HTML file
+ */
+function generateWrapperHtml({ creativeName, description, clientName, existingHtmlPath }) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(creativeName)} - Preview</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    header {
+      text-align: center;
+      padding: 30px 20px;
+      background: rgba(0,0,0,0.3);
+    }
+    h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    .meta {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+    }
+    .meta span { margin: 0 10px; }
+    .preview-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px;
+      min-height: calc(100vh - 120px);
+    }
+    .creative-frame {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      overflow: hidden;
+    }
+    iframe {
+      display: block;
+      border: none;
+    }
+    .direct-link {
+      text-align: center;
+      padding: 20px;
+    }
+    .direct-link a {
+      color: #00d9ff;
+      text-decoration: none;
+    }
+    .direct-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>${escapeHtml(creativeName)}</h1>
+    <div class="meta">
+      ${clientName ? `<span>Client: ${escapeHtml(clientName)}</span>` : ''}
+      ${description ? `<span>${escapeHtml(description)}</span>` : ''}
+    </div>
+  </header>
+  
+  <div class="preview-container">
+    <div class="creative-frame">
+      <iframe 
+        id="creativeFrame"
+        src="${escapeHtml(existingHtmlPath)}"
+        width="160"
+        height="600"
+        scrolling="no">
+      </iframe>
+    </div>
+  </div>
+  
+  <div class="direct-link">
+    <a href="${escapeHtml(existingHtmlPath)}" target="_blank">Open creative directly ↗</a>
+  </div>
+
+  <script>
+    // Try to detect creative dimensions from the filename or content
+    const iframe = document.getElementById('creativeFrame');
+    const src = iframe.src;
+    
+    // Parse dimensions from common filename patterns like 160x600, 300x250, etc.
+    const dimMatch = src.match(/(\\d{2,4})x(\\d{2,4})/i);
+    if (dimMatch) {
+      iframe.width = dimMatch[1];
+      iframe.height = dimMatch[2];
+    }
+  </script>
+</body>
+</html>`;
 }
 
 /**

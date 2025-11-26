@@ -147,6 +147,100 @@
   cursor: not-allowed;
 }
 
+/* Batch mode styles */
+.dropzone-files {
+  width: 100%;
+}
+
+.batch-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 15px;
+}
+
+.batch-icon {
+  font-size: 2rem;
+}
+
+.batch-summary {
+  flex: 1;
+  text-align: left;
+}
+
+.batch-count {
+  display: block;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.batch-size {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+.remove-all-btn {
+  background: rgba(255, 82, 82, 0.2);
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  color: #ff5252;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.remove-all-btn:hover:not(:disabled) {
+  background: rgba(255, 82, 82, 0.3);
+}
+
+.file-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.file-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.file-list-name {
+  flex: 1;
+  color: #fff;
+  font-size: 0.9rem;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-list-size {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+}
+
+.remove-file-btn-small {
+  background: none;
+  border: none;
+  color: rgba(255, 82, 82, 0.7);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.remove-file-btn-small:hover:not(:disabled) {
+  color: #ff5252;
+}
+
 /* Error message */
 .dropzone-error {
   color: #ff5252;
@@ -169,6 +263,10 @@
   }
 
   .dropzone-file-info {
+    flex-wrap: wrap;
+  }
+  
+  .batch-header {
     flex-wrap: wrap;
   }
 }

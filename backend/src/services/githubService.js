@@ -73,6 +73,8 @@ async function deploy({ creativeName, folderPath, files }) {
     });
     const baseTreeSha = commitData.tree.sha;
 
+    console.log(`📤 Deploying: ${basePath}`);
+
     // Create blobs for all files
     const treeItems = await Promise.all(
       files.map(async (file) => {
@@ -108,17 +110,18 @@ async function deploy({ creativeName, folderPath, files }) {
     const { data: newCommit } = await client.git.createCommit({
       owner,
       repo,
-      message: `Add preview: ${creativeName}`,
+      message: `Deploy preview: ${creativeName}`,
       tree: newTree.sha,
       parents: [currentCommitSha],
     });
 
-    // Update the gh-pages branch reference
+    // Update the gh-pages branch reference (force to allow overwrites)
     await client.git.updateRef({
       owner,
       repo,
       ref: `heads/${branch}`,
       sha: newCommit.sha,
+      force: true, // Allow overwriting existing content
     });
 
     // Construct preview URL
