@@ -5,6 +5,7 @@
 
 const express = require('express');
 const multer = require('multer');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
@@ -13,6 +14,23 @@ const templateGenerator = require('../services/templateGenerator');
 const githubService = require('../services/githubService');
 
 const router = express.Router();
+
+// Rate limiting for file upload and generation endpoints
+const uploadLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // Limit each IP to 20 uploads per window
+  message: { error: 'Too many uploads, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const generateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 preview generations per window
+  message: { error: 'Too many preview generations, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // Configure multer for file uploads
 const uploadDir = path.join(__dirname, '../../uploads');
@@ -55,7 +73,7 @@ const previews = [];
  * POST /api/upload
  * Handle ZIP file upload
  */
-router.post('/upload', upload.single('zipFile'), (req, res) => {
+router.post('/upload', uploadLimiter, upload.single('zipFile'), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -77,7 +95,7 @@ router.post('/upload', upload.single('zipFile'), (req, res) => {
  * POST /api/generate-preview
  * Process uploaded ZIP and deploy to GitHub Pages
  */
-router.post('/generate-preview', async (req, res) => {
+router.post('/generate-preview', generateLimiter, async (req, res) => {
   const { fileId, creativeName, folderPath, description, clientName } = req.body;
 
   // Validate required fields
