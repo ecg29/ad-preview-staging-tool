@@ -1,0 +1,174 @@
+/* DropZone component styles */
+.dropzone-container {
+  margin-bottom: 25px;
+}
+
+.dropzone {
+  border: 2px dashed rgba(0, 217, 255, 0.5);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(0, 217, 255, 0.05);
+}
+
+.dropzone:hover {
+  border-color: #00d9ff;
+  background: rgba(0, 217, 255, 0.1);
+}
+
+/* Active state when dragging over */
+.dropzone-active {
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.15);
+  transform: scale(1.02);
+}
+
+/* Disabled state */
+.dropzone-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dropzone-disabled:hover {
+  border-color: rgba(0, 217, 255, 0.5);
+  background: rgba(0, 217, 255, 0.05);
+  transform: none;
+}
+
+/* Has file state */
+.dropzone-has-file {
+  background: rgba(0, 255, 136, 0.1);
+  border-color: #00ff88;
+  padding: 20px;
+}
+
+/* Icon */
+.dropzone-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+/* Text */
+.dropzone-text {
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.dropzone-subtext {
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 15px;
+}
+
+/* Browse button */
+.dropzone-button {
+  display: inline-block;
+  padding: 12px 30px;
+  background: linear-gradient(90deg, #00d9ff, #00ff88);
+  color: #1a1a2e;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dropzone-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 217, 255, 0.4);
+}
+
+/* Hidden file input */
+.file-input-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* File info display */
+.dropzone-file-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  justify-content: center;
+}
+
+.file-icon {
+  font-size: 2.5rem;
+}
+
+.file-details {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.file-name {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  word-break: break-all;
+}
+
+.file-size {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+/* Remove file button */
+.remove-file-btn {
+  background: rgba(255, 82, 82, 0.2);
+  border: 1px solid rgba(255, 82, 82, 0.5);
+  color: #ff5252;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.remove-file-btn:hover:not(:disabled) {
+  background: rgba(255, 82, 82, 0.4);
+  transform: scale(1.1);
+}
+
+.remove-file-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.dropzone-error {
+  color: #ff5252;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dropzone {
+    padding: 30px 20px;
+  }
+
+  .dropzone-icon {
+    font-size: 2.5rem;
+  }
+
+  .dropzone-text {
+    font-size: 1rem;
+  }
+
+  .dropzone-file-info {
+    flex-wrap: wrap;
+  }
+}
